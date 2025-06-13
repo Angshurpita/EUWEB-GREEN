@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EUWEB Demo Landing Page - GREEN Theme</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Icons" rel="stylesheet" />
+<style>
+  /* Reset & base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0; font-family: 'Inter', sans-serif;
+    background: #f0faf3; /* Very light green background */
+    color: #1b4332; /* Dark green text */
+  }
+  a {
+    color: #2d6a4f; /* medium green link */
+    text-decoration: none;
+  }
+  a:hover, a:focus {
+    text-decoration: underline;
+  }
+  /* Layout variables */
+  :root {
+    --height-topmenu: 56px;
+    --height-submenu: 44px;
+    --width-verticalmenu: 260px;
+    --green-primary: #40916c;
+    --green-secondary: #2d6a4f;
+    --green-light: #d8f3dc;
+    --shadow-dark: rgba(0, 0, 0, 0.15);
+  }
+
+  /* MATERIAL ICONS helper */
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* FIXED TOP GENERAL HORIZONTAL MENU */
+  header.topmenu {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--height-topmenu);
+    background: var(--green-primary);
+    box-shadow: 0 2px 6px var(--shadow-dark);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    color: #e9f5e9;
+    z-index: 1000;
+  }
+  header.topmenu .logo {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 2px;
+    user-select: none;
+  }
+  header.topmenu nav {
+    margin-left: auto;
+    display: flex;
+    gap: 28px;
+  }
+  header.topmenu nav a {
+    font-weight: 600;
+    font-size: 14px;
+    color: #d8f3dc;
+    line-height: var(--height-topmenu);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  header.topmenu nav a.active,
+  header.topmenu nav a:hover,
+  header.topmenu nav a:focus {
+    background: var(--green-secondary);
+    color: white;
+  }
+
+  /* FIXED BELOW: SECONDARY HORIZONTAL SUBMENU */
+  nav.submenu {
+    position: fixed;
+    top: var(--height-topmenu);
+    left: 0; right: 0;
+    height: var(--height-submenu);
+    background: var(--green-secondary);
+    box-shadow: 0 3px 4px var(--shadow-dark);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 24px;
+    color: #d8f3dc;
+    font-weight: 600;
+    font-size: 13px;
+    z-index: 999;
+  }
+  nav.submenu a {
+    color: #d8f3dc;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background-color 0.25s ease;
+  }
+  nav.submenu a.active,
+  nav.submenu a:hover,
+  nav.submenu a:focus {
+    background: var(--green-light);
+    color: var(--green-primary);
+    font-weight: 700;
+  }
+
+  /* FIXED LEFT VERTICAL MENU */
+  aside.vertmenu {
+    position: fixed;
+    top: calc(var(--height-topmenu) + var(--height-submenu));
+    left: 0;
+    width: var(--width-verticalmenu);
+    bottom: 0;
+    background: var(--green-light);
+    padding-top: 24px;
+    box-shadow: 2px 0 6px var(--shadow-dark);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow-y: auto;
+    z-index: 998;
+  }
+  aside.vertmenu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  aside.vertmenu nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--green-secondary);
+    padding: 8px 16px;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+  }
+  aside.vertmenu nav a.active,
+  aside.vertmenu nav a:hover,
+  aside.vertmenu nav a:focus {
+    background: var(--green-primary);
+    color: #e9f5e9;
+  }
+  aside.vertmenu nav a .material-icons {
+    font-size: 22px;
+  }
+
+  /* MAIN PRESENTATION SPACE */
+  main.presentation-space {
+    margin-left: var(--width-verticalmenu);
+    margin-top: calc(var(--height-topmenu) + var(--height-submenu));
+    padding: 48px 40px;
+    min-height: calc(100vh - var(--height-topmenu) - var(--height-submenu));
+    background: white;
+    box-shadow: 0 0 16px rgb(0 0 0 / 0.04);
+    border-radius: 20px 0 0 20px;
+    overflow-x: hidden;
+  }
+  main.presentation-space section {
+    margin-bottom: 96px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+  }
+  main.presentation-space section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  main.presentation-space h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--green-primary);
+    margin-bottom: 16px;
+  }
+  main.presentation-space p.lead {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    max-width: 720px;
+    margin-bottom: 36px;
+    color: #2f5233;
+  }
+  main.presentation-space .button-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  main.presentation-space .btn {
+    background: var(--green-primary);
+    color: #e7f5e7;
+    border: none;
+    padding: 14px 28px;
+    font-size: 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgb(64 145 108 / 0.4);
+    transition: background-color 0.3s ease;
+  }
+  main.presentation-space .btn:hover,
+  main.presentation-space .btn:focus {
+    background: var(--green-secondary);
+    outline: none;
+  }
+  main.presentation-space img.screenshot {
+    width: 100%;
+    max-width: 560px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.1);
+    margin-top: 40px;
+  }
+
+  /* RESPONSIVE adjustments */
+  @media (max-width: 1024px) {
+    aside.vertmenu {
+      width: 200px;
+      padding-top: 20px;
+    }
+    main.presentation-space {
+      margin-left: 200px;
+      padding: 32px 24px;
+    }
+  }
+  @media (max-width: 768px) {
+    header.topmenu nav {
+      display: none;
+    }
+    nav.submenu {
+      display: none;
+    }
+    aside.vertmenu {
+      position: fixed;
+      top: var(--height-topmenu);
+      left: -260px; /* hidden by default */
+      transition: left 0.3s ease;
+      z-index: 1100;
+    }
+    aside.vertmenu.open {
+      left: 0;
+    }
+    main.presentation-space {
+      margin-left: 0;
+      margin-top: var(--height-topmenu);
+      padding: 24px 20px;
+      border-radius: 0;
+    }
+    header.topmenu {
+      justify-content: space-between;
+    }
+    #menuToggleBtn {
+      font-family: 'Material Icons';
+      color: #e9f5e9;
+      font-size: 26px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      user-select: none;
+    }
+  }
+  @media (max-width: 480px) {
+    main.presentation-space h1 {
+      font-size: 2.25rem;
+    }
+    main.presentation-space p.lead {
+      font-size: 1.1rem;
+    }
+    main.presentation-space .btn {
+      padding: 12px 20px;
+      font-size: 0.95rem;
+    }
+  }
+
+</style>
+</head>
+<body>
+<header class="topmenu" role="banner" aria-label="Main navigation">
+  <div class="logo" tabindex="0">EUWEB GREEN</div>
+  <button id="menuToggleBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="verticalMenu">
+    <span class="material-icons">menu</span>
+  </button>
+  <nav role="navigation" aria-label="Primary menu">
+    <a href="#home" tabindex="0" class="tab-link"><span class="material-icons" aria-hidden="true">home</span>Home</a>
+    <a href="#about" tabindex="0" class="tab-link"><span class="material-icons" aria-hidden="true">info</span>About</a>
+    <a href="#contact" tabindex="0" class="tab-link"><span class="material-icons" aria-hidden="true">contact_mail</span>Contact</a>
+  </nav>
+</header>
+
+<nav class="submenu" role="navigation" aria-label="Secondary menu">
+  <a href="#projects" class="active tab-link" tabindex="0">Projects</a>
+  <a href="#patents" class="tab-link" tabindex="0">Patents</a>
+  <a href="#green-goals" class="tab-link" tabindex="0">Green Goals</a>
+  <a href="#team" class="tab-link" tabindex="0">Team</a>
+</nav>
+
+<aside class="vertmenu" id="verticalMenu" role="navigation" aria-label="Sidebar menu">
+  <nav>
+    <a href="#dashboard" class="active tab-link" tabindex="0"><span class="material-icons">dashboard</span> Dashboard</a>
+    <a href="#articles" class="tab-link" tabindex="0"><span class="material-icons">article</span> Articles</a>
+    <a href="#sustainability" class="tab-link" tabindex="0"><span class="material-icons">eco</span> Sustainability</a>
+    <a href="#innovations" class="tab-link" tabindex="0"><span class="material-icons">lightbulb</span> Innovations</a>
+    <a href="#awards" class="tab-link" tabindex="0"><span class="material-icons">emoji_events</span> Awards</a>
+    <a href="#profile" class="tab-link" tabindex="0"><span class="material-icons">person</span> Profile</a>
+    <a href="#settings" class="tab-link" tabindex="0"><span class="material-icons">settings</span> Settings</a>
+  </nav>
+</aside>
+
+<main class="presentation-space" role="main" tabindex="0" aria-label="Main presentation content area">
+  <section id="home" class="visible-section visible">
+    <h1>Welcome to EUWEB GREEN Initiative</h1>
+    <p class="lead">
+      Driving sustainable innovation and green patents forward. Explore our projects, learn about our goals, and join a community committed to a greener future.
+    </p>
+    <div class="button-group">
+      <button class="btn" onclick="alert('Explore projects clicked!')">Explore Projects</button>
+      <button class="btn" onclick="alert('Learn more clicked!')">Learn More</button>
+    </div>
+    <img
+      src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c7de4529-75c5-4cbf-b64a-76090b9bbeff.png"
+      alt="Screenshot preview of green innovation dashboard and patents"
+      class="screenshot" />
+  </section>
+
+  <section id="about" class="visible-section">
+    <h1>About EUWEB</h1>
+    <p>
+      EUWEB is a pioneering organization dedicated to advancing green technology and sustainability through innovative patent solutions and collaborative green projects.
+    </p>
+  </section>
+
+  <section id="contact" class="visible-section">
+    <h1>Contact Us</h1>
+    <p>
+      Have questions or want to get involved? Reach out to our team to learn more about how you can contribute to sustainable innovation.
+    </p>
+  </section>
+
+  <section id="projects" class="visible-section">
+    <h1>Our Projects</h1>
+    <p>
+      From renewable energy systems to eco-friendly materials, our projects aim to create tangible impact in environmental preservation and green tech advancement.
+    </p>
+  </section>
+
+  <section id="patents" class="visible-section">
+    <h1>Green Patents</h1>
+    <p>
+      Our patent portfolio reflects cutting-edge ideas and technologies aimed at reducing carbon footprint and enhancing sustainability globally.
+    </p>
+  </section>
+
+  <section id="green-goals" class="visible-section">
+    <h1>Our Green Goals</h1>
+    <p>
+      Strategic objectives focused on climate action, clean energy adoption, and fostering a circular economy to protect our planet.
+    </p>
+  </section>
+
+  <section id="team" class="visible-section">
+    <h1>Meet the Team</h1>
+    <p>
+      A group of passionate experts, innovators, and advocates working towards a greener, more sustainable future.
+    </p>
+  </section>
+
+  <section id="dashboard" class="visible-section">
+    <h1>Dashboard</h1>
+    <p>
+      Real-time analytics and updates on project status and sustainability metrics.
+    </p>
+  </section>
+
+  <section id="articles" class="visible-section">
+    <h1>Articles</h1>
+    <p>
+      Latest news, insights, and thought leadership on green technologies and sustainable development.
+    </p>
+  </section>
+
+  <section id="sustainability" class="visible-section">
+    <h1>Sustainability</h1>
+    <p>
+      Our commitment to environmental stewardship and sustainable practices across operations.
+    </p>
+  </section>
+
+  <section id="innovations" class="visible-section">
+    <h1>Innovations</h1>
+    <p>
+      Breakthrough technologies and solutions designed to address global environmental challenges.
+    </p>
+  </section>
+
+  <section id="awards" class="visible-section">
+    <h1>Awards</h1>
+    <p>
+      Recognition received for our outstanding contributions in green technology and sustainability.
+    </p>
+  </section>
+
+  <section id="profile" class="visible-section">
+    <h1>Your Profile</h1>
+    <p>
+      Manage your personal information and track your participation with EUWEB.
+    </p>
+  </section>
+
+  <section id="settings" class="visible-section">
+    <h1>Settings</h1>
+    <p>
+      Customize your experience and notification preferences.
+    </p>
+  </section>
+</main>
+
+<script>
+  // Toggle vertical menu on mobile
+  const menuToggleBtn = document.getElementById('menuToggleBtn');
+  const verticalMenu = document.getElementById('verticalMenu');
+
+  menuToggleBtn.addEventListener('click', () => {
+    const expanded = menuToggleBtn.getAttribute('aria-expanded') === 'true';
+    menuToggleBtn.setAttribute('aria-expanded', String(!expanded));
+    verticalMenu.classList.toggle('open');
+  });
+
+  // Scrollspy and smooth reveal sections
+  const sections = document.querySelectorAll('main.presentation-space section');
+  const topMenuLinks = document.querySelectorAll('header.topmenu nav a.tab-link');
+  const subMenuLinks = document.querySelectorAll('nav.submenu a.tab-link');
+  const vertMenuLinks = document.querySelectorAll('aside.vertmenu nav a.tab-link');
+
+  function deactivateAllLinks() {
+    [...topMenuLinks, ...subMenuLinks, ...vertMenuLinks].forEach(link => link.classList.remove('active'));
+  }
+
+  function activateLinkByHref(href) {
+    deactivateAllLinks();
+    // Activate top menu links
+    topMenuLinks.forEach((link) => {
+      if (link.getAttribute('href') === href) link.classList.add('active');
+    });
+    // Activate submenu links
+    subMenuLinks.forEach((link) => {
+      if (link.getAttribute('href') === href) link.classList.add('active');
+    });
+    // Activate vertical menu links
+    vertMenuLinks.forEach((link) => {
+      if (link.getAttribute('href') === href) link.classList.add('active');
+    });
+  }
+
+  function onScroll() {
+    let scrollPosition = window.scrollY + window.innerHeight / 3;
+
+    for (let section of sections) {
+      if (section.offsetTop <= scrollPosition && (section.offsetTop + section.offsetHeight) > scrollPosition) {
+        const id = section.getAttribute('id');
+        activateLinkByHref('#' + id);
+        // Reveal section animation
+        if (!section.classList.contains('visible')) {
+          section.classList.add('visible');
+        }
+      }
+    }
+  }
+
+  // Initial activation for home
+  activateLinkByHref('#home');
+
+  window.addEventListener('scroll', onScroll);
+
+  // Click handler for smooth scrolling and active state
+  [...topMenuLinks, ...subMenuLinks, ...vertMenuLinks].forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href');
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        targetEl.scrollIntoView({behavior: 'smooth', block: 'start'});
+        activateLinkByHref(targetId);
+        // Close vertical menu on mobile if open
+        if (verticalMenu.classList.contains('open')) {
+          verticalMenu.classList.remove('open');
+          menuToggleBtn.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
+
